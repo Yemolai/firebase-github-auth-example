@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Github auth</title>
+    <script src="/javascripts/firebase.js"></script> <!-- Firebase variables -->
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+    <script>
+        firebase.initializeApp(config);
+    </script>
+</head>
+<body>
+    <button id="authGitHubButton">
+        Log in with GitHub
+    </button>
+    <button id="logout">
+        Log out
+    </button>
+    <hr>
+    <a href="/access.html">Acesso</a>
+    <h3 id="displayName"></h3>
+    <img class="photoURL text-center image-responsive" id="photoURL" src=""></img>
+    <script>
+        var nameEl = document.getElementById("displayName");
+        var photoEl = document.getElementById("photoURL");
+        var authGitHubButton = document.getElementById('authGitHubButton');
+        var logoutButton = document.getElementById('logout');
+        var token = '';
+        // Autenticar com GitHub
+        authGitHubButton.addEventListener('click', function () {
+            // Providers
+            var provider = new firebase.auth.GithubAuthProvider();
+            // window.location.href = "/access.html";
+            signIn(provider);
+        });
+        logoutButton.addEventListener('click', logout);
+        function signIn(provider) {
+            firebase.auth()
+            .signInWithPopup(provider)
+            .then(function (result) {
+                console.log(result);
+                token = result.credential.accessToken;
+            }).catch(function (error) {
+                console.log(error);
+                alert('Falha na autenticação');
+            });
+        }
+        function logout() {
+            firebase.auth().signOut()
+            .then(function () {
+                alert('Saiu.');
+            })
+            .catch(function (error) {
+                console.error('[LOGOUT] error:', error);
+                alert('Não foi possível sair.');
+            })
+        }
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is logged in.
+                nameEl.innerText = 'Olá, ' + user.displayName + '(' + user.email + ')';
+                photoEl.setAttribute("src", user.photoURL);
+                photoEl.style.display = 'block';
+            } else {
+                // No user logged.
+                nameEl.innerText = 'Desconectado';
+                photoEl.setAttribute("src", "");
+                photoEl.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

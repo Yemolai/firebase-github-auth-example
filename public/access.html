@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>GitHub Access</title>
+    <!-- Firebase variables -->
+    <script src="/javascripts/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.8.2/firebase.js"></script>
+    <script>
+        firebase.initializeApp(config);
+    </script>
+</head>
+<body>
+    <h3 id="displayName"></h3>
+    <img class="photoURL text-center image-responsive" id="photoURL" src=""></img>
+    <script type="text/javascript">
+        var nameEl = document.getElementById("displayName");
+        var photoEl = document.getElementById("photoURL");
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is logged in.
+                nameEl.innerText = 'Olá, ' + user.displayName + '(' + user.email + ')';
+                photoEl.setAttribute("src", user.photoURL);
+                photoEl.style.display = 'block';                
+            } else {
+                // No user logged.
+                nameEl.innerText = 'Desconectado';
+                photoEl.setAttribute("src", "");
+                photoEl.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
