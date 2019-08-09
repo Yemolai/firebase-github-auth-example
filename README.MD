@@ -5,5 +5,3 @@ options into the file `public/javascripts/firebase.js` (`firebase.1.js` is an ex
 to run this just run `npm run dev` into console at this project folder.
 
 It is a simple github-firebase authentication example to demonstrate the usage.
-
-Author: Yemolai (a.k.a. Romulo Gabriel Rodrigues)
