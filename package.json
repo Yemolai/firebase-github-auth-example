@@ -1,6 +1,7 @@
 {
   "name": "firebaseauth",
-  "version": "0.0.0",
+  "description": "small simple project intended to show how to use Github OAuth with Firebase Authentication",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
